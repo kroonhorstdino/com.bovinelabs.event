@@ -12,6 +12,7 @@ namespace BovineLabs.Event.Jobs
     using Unity.Collections.LowLevel.Unsafe;
     using Unity.Jobs;
     using Unity.Jobs.LowLevel.Unsafe;
+    using Unity.Burst;
 
     /// <summary> Job that visits each event. </summary>
     /// <typeparam name="T"> Type of event. </typeparam>
@@ -98,6 +99,7 @@ namespace BovineLabs.Event.Jobs
         /// <summary> The parallel job execution struct. </summary>
         /// <typeparam name="TJob"> The type of the job. </typeparam>
         /// <typeparam name="T"> The type of the event. </typeparam>
+        [BurstCompile]
         internal struct JobEventProducer<TJob, T>
             where TJob : struct, IJobEvent<T>
             where T : unmanaged
@@ -160,7 +162,7 @@ namespace BovineLabs.Event.Jobs
             /// <param name="bufferRangePatchData"> BufferRangePatchData. </param>
             /// <param name="ranges"> The job range. </param>
             /// <param name="jobIndex"> The job index. </param>
-            [SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Required by burst.")]
+            [SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Required by burst."), BurstCompile]
             public static void Execute(
                 ref JobEventProducer<TJob, T> fullData,
                 IntPtr additionalPtr,
